@@ -10,3 +10,5 @@ router.post("/login", (req, res) => {
   console.log(req.body);
   res.send("login");
 });
+
+module.exports = router;
