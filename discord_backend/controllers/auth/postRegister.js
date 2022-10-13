@@ -1,5 +1,6 @@
 const User = require("../../models/user");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const postRegister = async (req, res) => {
   try {
@@ -17,7 +18,9 @@ const postRegister = async (req, res) => {
     });
     await newUser.save();
 
-    const token = "1234567890";
+    const token = jwt.sign({ id: newUser._id, email }, process.env.TOKEN_KEY, {
+      expiresIn: "1d",
+    });
 
     res.status(200).json({ msg: "User created", email: email, token: token });
   } catch (err) {

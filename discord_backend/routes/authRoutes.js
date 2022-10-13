@@ -3,6 +3,7 @@ const router = express.Router();
 const autControllers = require("../controllers/auth/authControllers");
 const Joi = require("joi");
 const validator = require("express-joi-validation").createValidator({});
+const auth = require("../middleware/auth");
 
 const loginSchema = Joi.object({
   email: Joi.string().email().required(),
@@ -26,5 +27,10 @@ router.get(
   validator.body(loginSchema),
   autControllers.controllers.postLogin
 );
+
+// test route for middleware
+router.get("/test", auth, (req, res) => {
+  res.send("test route");
+});
 
 module.exports = router;
