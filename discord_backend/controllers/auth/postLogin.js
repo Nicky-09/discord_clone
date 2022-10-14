@@ -5,21 +5,34 @@ const jwt = require("jsonwebtoken");
 const postLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ email: email.toLowerCase() });
-    if (!user) {
-      return res.status(400).json({ msg: "User does not exist" });
-    }
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(400).json({ msg: "Invalid credentials" });
-    }
-    const token = jwt.sign({ id: newUser._id, email }, process.env.TOKEN_KEY, {
-      expiresIn: "1d",
-    });
 
-    res.status(200).json({ msg: "User logged in", email: email, token: token });
+    const user = await User.findOne({ email: email.toLowerCase() });
+
+    if (user && (await bcrypt.compare(password, user.password))) {
+      // send new token
+      const token = jwt.sign(
+        {
+          userId: user._id,
+          email,
+        },
+        process.env.TOKEN_KEY,
+        {
+          expiresIn: "24h",
+        }
+      );
+
+      return res.status(200).json({
+        userDetails: {
+          email: user.email,
+          token: token,
+          username: user.username,
+        },
+      });
+    }
+
+    return res.status(400).send("Invalid credentials. Please try again");
   } catch (err) {
-    res.status(500).json({ msg: err.message });
+    return res.status(500).send("Something went wrong. Please try again");
   }
 };
 

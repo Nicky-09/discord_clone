@@ -23,6 +23,7 @@ const LoginPage = ({ login }) => {
       email,
       password,
     };
+    console.log(userDetails);
     login(userDetails, history);
   };
 
