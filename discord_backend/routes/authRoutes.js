@@ -22,7 +22,7 @@ router.post(
   autControllers.controllers.postRegister
 );
 
-router.get(
+router.post(
   "/login",
   validator.body(loginSchema),
   autControllers.controllers.postLogin
