@@ -9,15 +9,21 @@ export const login = async (data) => {
   try {
     console.log(data);
     return await apiClient.post("auth/login", data);
-  } catch (err) {
-    console.log(err);
+  } catch (exception) {
+    return {
+      error: true,
+      exception,
+    };
   }
 };
 
 export const register = async (data) => {
   try {
     return await apiClient.post("auth/register", data);
-  } catch (error) {
-    console.log(error);
+  } catch (exception) {
+    return {
+      error: true,
+      exception,
+    };
   }
 };
