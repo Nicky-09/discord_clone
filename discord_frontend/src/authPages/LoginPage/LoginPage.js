@@ -12,7 +12,7 @@ const LoginPage = () => {
 
   useEffect(() => {
     setIsFormValid(validateLoginForm({ email, password }));
-  }, [email, password]);
+  }, [email, password, isFormValid]);
 
   const handleLogin = () => {
     console.log(email);

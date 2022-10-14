@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  Route,
-  Routes,
-  Navigate,
-  Redirect,
-  Switch,
-  BrowserRouter,
-} from "react-router-dom";
+import { Route, Redirect, Switch, BrowserRouter } from "react-router-dom";
 import "./App.css";
 import LoginPage from "./authPages/LoginPage/LoginPage";
 import RegisterPage from "./authPages/RegisterPage/RegisterPage";
