@@ -5,6 +5,19 @@ const apiClient = axios.create({
   timeout: 1000,
 });
 
+apiClient.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers["Authorization"] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    Promise.reject(error);
+  }
+);
+
 export const login = async (data) => {
   try {
     console.log(data);
@@ -25,5 +38,15 @@ export const register = async (data) => {
       error: true,
       exception,
     };
+  }
+};
+
+//secure routes
+
+const checkResponse = (exception) => {
+  const responseCode = exception?.response?.status;
+  if (responseCode === 401 || responseCode === 403) {
+    localStorage.removeItem("token");
+    window.location.href = "/login";
   }
 };
